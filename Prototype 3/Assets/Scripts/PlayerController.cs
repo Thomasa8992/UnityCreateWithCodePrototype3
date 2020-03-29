@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space) && playerIsOnTheGround) {
+        if(Input.GetKey(KeyCode.Space) && playerIsOnTheGround && !gameOver) {
             playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             playerAnimator.SetTrigger("Jump_trig");
             playerIsOnTheGround = false;
