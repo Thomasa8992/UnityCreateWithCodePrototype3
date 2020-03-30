@@ -26,9 +26,12 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKey(KeyCode.Space) && playerIsOnTheGround && !gameOver) {
+    void Update() {
+        handlePlayerJump();
+    }
+
+    private void handlePlayerJump() {
+        if (Input.GetKey(KeyCode.Space) && playerIsOnTheGround && !gameOver) {
             playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             playerAnimator.SetTrigger("Jump_trig");
             playerIsOnTheGround = false;
@@ -38,12 +41,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
+        handlePlayerCollsion(collision);
+    }
+
+    private void handlePlayerCollsion(Collision collision) {
         Debug.Log(collision.collider.gameObject.tag);
-        if(collision.gameObject.CompareTag("Ground")) {
+        if (collision.gameObject.CompareTag("Ground")) {
             playerIsOnTheGround = true;
             dirtParticles.Play();
-        } 
-        else if (collision.gameObject.CompareTag("Obstacle")) {
+        } else if (collision.gameObject.CompareTag("Obstacle")) {
             gameOver = true;
             Debug.Log("Game Over");
             playerAnimator.SetBool("Death_b", true);
